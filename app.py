@@ -1,9 +1,8 @@
 from flask import Flask, request, jsonify
-import firebirdsql
+import fdb
 
 app = Flask(__name__)
 
-# 🔥 CONFIG
 HOST = "corporativomichelle.com"
 DATABASE = "SISTEMA"
 USER = "SYSDBA"
@@ -20,17 +19,12 @@ def remision():
         movtipo = request.args.get("movtipo")
         consecutivo = request.args.get("consecutivo")
 
-        if not movtipo or not consecutivo:
-            return jsonify({"error": "Faltan datos"})
-
-        con = firebirdsql.connect(
+        con = fdb.connect(
             host=HOST,
             database=DATABASE,
             user=USER,
             password=PASSWORD,
-            port=PORT,
-            charset='ANSI',
-            timeout=30
+            port=PORT
         )
 
         cur = con.cursor()
